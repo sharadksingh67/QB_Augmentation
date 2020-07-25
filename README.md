@@ -1,2 +1,2 @@
-# QB_Augmentation
-This repository is for QB_Augmentation
+# QB_Augmentation: SQL Server Code Challenges
+This branch is for SQL Server code challenges
