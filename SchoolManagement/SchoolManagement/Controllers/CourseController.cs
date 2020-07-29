@@ -13,12 +13,17 @@ namespace SchoolManagement.Controllers
 {
     public class CourseController : Controller
     {
-        private SchoolContext db = new SchoolContext();
+        private ISchoolContext _db;
+
+        public CourseController(ISchoolContext db)
+        {
+            _db = db;
+        }
 
         // GET: Course
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            return View(_db.Courses.ToList());
         }
 
         // GET: Course/Details/5
@@ -28,7 +33,7 @@ namespace SchoolManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            Course course = _db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -51,8 +56,8 @@ namespace SchoolManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Courses.Add(course);
-                db.SaveChanges();
+                _db.Courses.Add(course);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +71,7 @@ namespace SchoolManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            Course course = _db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -83,8 +88,8 @@ namespace SchoolManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(course).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -97,7 +102,7 @@ namespace SchoolManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            Course course = _db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -110,9 +115,9 @@ namespace SchoolManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
+            Course course = _db.Courses.Find(id);
+            _db.Courses.Remove(course);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +125,7 @@ namespace SchoolManagement.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

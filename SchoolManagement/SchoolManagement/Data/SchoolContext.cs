@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SchoolManagement.Data
 {
-    public class SchoolContext : DbContext
+    public class SchoolContext : DbContext, ISchoolContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
