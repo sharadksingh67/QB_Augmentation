@@ -1,0 +1,8 @@
+Project Overview 
+	This ICT Project contains development of web application to automate Generic Sales and billing application. 
+  Any retail shop can use this application in generic way and they can maintain Products information and can perform billing operations. 
+  The Retail outlet has to feed all the products information first before making bills.
+Initial Assumptions:
+	To reduce the size of the application, there are no stock maintenance and purchase modules. 
+Future Enhancements:
+As future enhancement we can update this project to support product purchasing and stock management modules as extra.
