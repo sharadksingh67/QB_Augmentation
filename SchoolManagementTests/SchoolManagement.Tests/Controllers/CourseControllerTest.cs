@@ -6,9 +6,7 @@ using SchoolManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -16,7 +14,7 @@ using System.Web.Mvc;
 namespace SchoolManagement.Tests.Controllers
 {
     [TestFixture]
-    public class StudentControllerTest
+    public class CourseControllerTest
     {
         List<Student> students;
         List<Course> courses;
@@ -141,104 +139,98 @@ namespace SchoolManagement.Tests.Controllers
             mockSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => data.Add(s));
             return mockSet.Object;
         }
-        
+
         [Test]
-        public void TestStudentIndex()
+        public void TestCourseIndex()
         {
             var mock = GetMockContext(courses, enrollments, students);
 
-            var studentsController = new StudentsController(mock);
+            var courseController = new CourseController(mock);
 
-            Assert.IsNotNull(studentsController);
-            Assert.IsInstanceOf(typeof(StudentsController), studentsController);
+            Assert.IsNotNull(courseController);
+            Assert.IsInstanceOf(typeof(CourseController), courseController);
 
-            var actResult = studentsController.Index() as ViewResult;
+            var actResult = courseController.Index() as ViewResult;
 
-            var studentsList = actResult.Model as List<Student>;
-            Assert.AreEqual(studentsList[0].FirstMidName, "Carson");
-            Assert.AreEqual(studentsList[0].LastName, "Alexander");
+            var courseList = actResult.Model as List<Course>;
+            Assert.AreEqual(courseList[0].CourseID, 1050);
+            Assert.AreEqual(courseList[0].Title, "Chemistry");
         }
 
         [Test]
-        public void TestStudentDetailsNotFound()
+        public void TestCourseDetailsNotFound()
         {
             var mock = GetMockContext(courses, enrollments, students);
 
-            var studentsController = new StudentsController(mock);
+            var courseController = new CourseController(mock);
 
-            Assert.IsNotNull(studentsController);
-            Assert.IsInstanceOf(typeof(StudentsController), studentsController);
+            Assert.IsNotNull(courseController);
+            Assert.IsInstanceOf(typeof(CourseController), courseController);
 
-            var actResult = studentsController.Details(2) as ViewResult;
+            var actResult = courseController.Details(2) as ViewResult;
 
             Assert.IsNull(actResult);
         }
 
         [Test]
-        public void TestStudentCreate()
+        public void TestCourseCreate()
         {
             var mock = GetMockContext(courses, enrollments, students);
 
-            var studentsController = new StudentsController(mock);
+            var courseController = new CourseController(mock);
 
-            Assert.IsNotNull(studentsController);
-            Assert.IsInstanceOf(typeof(StudentsController), studentsController);
+            Assert.IsNotNull(courseController);
+            Assert.IsInstanceOf(typeof(CourseController), courseController);
 
-            var actResult = studentsController.Create() as ViewResult;
+            var actResult = courseController.Create() as ViewResult;
 
             Assert.IsNotNull(actResult);
         }
 
         [Test]
-        public void TestStudentCreate_WithStudentParam_RedirectRoute()
+        public void TestCourseCreate_WithStudentParam_RedirectRoute()
         {
             var mock = GetMockContext(courses, enrollments, students);
 
-            var studentsController = new StudentsController(mock);
+            var courseController = new CourseController(mock);
 
-            Assert.IsNotNull(studentsController);
-            Assert.IsInstanceOf(typeof(StudentsController), studentsController);
+            Assert.IsNotNull(courseController);
+            Assert.IsInstanceOf(typeof(CourseController), courseController);
 
-            Student student = new Student
-            {
-                ID = 1,
-                FirstMidName = "Carson",
-                LastName = "Alexander",
-                EnrollmentDate = DateTime.Parse("2020-09-01")
-            };
+            Course course = new Course { CourseID = 1050, Title = "Chemistry", Credits = 3 };
 
-            RedirectToRouteResult redirectRoute = studentsController.Create(student) as RedirectToRouteResult;
+            RedirectToRouteResult redirectRoute = courseController.Create(course) as RedirectToRouteResult;
 
             Assert.IsNotNull(redirectRoute);
         }
 
         [Test]
-        public void TestStudentEdit()
+        public void TestCourseEdit()
         {
             var mock = GetMockContext(courses, enrollments, students);
 
-            var studentsController = new StudentsController(mock);
+            var courseController = new CourseController(mock);
 
-            Assert.IsNotNull(studentsController);
-            Assert.IsInstanceOf(typeof(StudentsController), studentsController);
+            Assert.IsNotNull(courseController);
+            Assert.IsInstanceOf(typeof(CourseController), courseController);
 
-            var actResult = studentsController.Edit(2) as HttpNotFoundResult;
+            var actResult = courseController.Edit(2) as HttpNotFoundResult;
 
             Assert.IsNotNull(actResult);
             Assert.AreEqual(actResult.StatusCode, 404);
         }
 
         [Test]
-        public void TestStudentDelete()
+        public void TestCourseDelete()
         {
             var mock = GetMockContext(courses, enrollments, students);
 
-            var studentsController = new StudentsController(mock);
+            var courseController = new CourseController(mock);
 
-            Assert.IsNotNull(studentsController);
-            Assert.IsInstanceOf(typeof(StudentsController), studentsController);
+            Assert.IsNotNull(courseController);
+            Assert.IsInstanceOf(typeof(CourseController), courseController);
 
-            var actResult = studentsController.Delete(2) as HttpNotFoundResult;
+            var actResult = courseController.Delete(2) as HttpNotFoundResult;
 
             Assert.IsNotNull(actResult);
             Assert.AreEqual(actResult.StatusCode, 404);
